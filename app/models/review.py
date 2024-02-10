@@ -10,6 +10,9 @@ class Review(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
+    to_do_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('to-do.id')))
+    to_see_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('to-see.id')))
+    to_eat_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('to-eat.id')))
     rating = db.Column(db.Integer, nullable=False)
     comment = db.Column(db.Text)
     review_image = db.Column(db.String)
