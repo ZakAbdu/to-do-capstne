@@ -7,6 +7,9 @@ from flask_login import LoginManager
 from .models import db, User
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
+from .api.todo_routes import todo_routes
+from .api.toeat_routes import toeat_routes
+from .api.tosee_routes import tosee_routes
 from .config import Config
 
 app = Flask(__name__)
@@ -22,6 +25,9 @@ def load_user(id):
 app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
+app.register_blueprint(todo_routes, url_prefix='/api/to-do')
+app.register_blueprint(toeat_routes, url_prefix='/api/to-eat')
+app.register_blueprint(tosee_routes, url_prefix='/api/to-see')
 
 db.init_app(app)
 Migrate(app, db)
