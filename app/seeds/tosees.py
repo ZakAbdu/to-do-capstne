@@ -31,6 +31,7 @@ def seed_tosee():
 
 def undo_tosee():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.to-see RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE TABLE `{SCHEMA}`.`to-see` RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM to-see"))
+        db.session.execute(text("DELETE FROM `to-see`"))
+    db.session.commit()

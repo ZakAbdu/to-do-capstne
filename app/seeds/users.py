@@ -6,13 +6,13 @@ def seed_users():
         first_name='Demo',
         last_name='User',
         email='demo@aa.io',
-        hashed_password='password'
+        _password='password'
     )
     gordon = User(
         first_name='Gordon',
         last_name='Ramsay',
         email='gordon@idiot.com',
-        hashed_password='password'
+        _password='password'
     )
 
     db.session.add(demo)

@@ -14,7 +14,7 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(40), nullable=False)
     last_name = db.Column(db.String(40), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
-    hashed_password = db.Column(db.String(255), nullable=False)
+    _password = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default= datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -25,13 +25,13 @@ class User(db.Model, UserMixin):
     to_do = db.relationship('To_Do', cascade='all, delete-orphan', lazy="joined", backref="user")
 
 
-    # @property
-    # def password(self):
-    #     return self.hashed_password
+    @property
+    def password(self):
+        return self._password
 
-    # @password.setter
-    # def password(self, password):
-    #     self.hashed_password = generate_password_hash(password)
+    @password.setter
+    def password(self, plain_password):
+        self._password = plain_password
 
     # def check_password(self, password):
     #     return check_password_hash(self.password, password)
@@ -42,6 +42,7 @@ class User(db.Model, UserMixin):
             'firstName': self.first_name,
             'lastName': self.last_name,
             'email': self.email,
+            'password': self._password,
             'createdAt': self.created_at,
             'updatedAt': self.updated_at
         }

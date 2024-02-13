@@ -31,6 +31,7 @@ def seed_toeat():
 
 def undo_toeat():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.to-eat RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE TABLE `{SCHEMA}`.`to-eat` RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM to-eat"))
+        db.session.execute(text("DELETE FROM `to-eat`"))
+    db.session.commit()

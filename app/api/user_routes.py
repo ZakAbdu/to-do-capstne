@@ -6,7 +6,7 @@ from app.models import db, User, To_Do, To_See, To_Eat, Review
 user_routes = Blueprint('users', __name__)
 
 @user_routes.route('/')
-@login_required
+# @login_required
 def users():
     """
     Query for all users and returns them in a list of user dictionaries
@@ -15,7 +15,7 @@ def users():
     return {'Users': [user.to_dict() for user in users]}
 
 @user_routes.route('/<int:id>')
-@login_required
+# @login_required
 def user(id):
     """
     Query for a user by id and returns that user in a dictionary

@@ -31,6 +31,7 @@ def seed_todo():
 
 def undo_todo():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.to-do RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE TABLE `{SCHEMA}`.`to-do` RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM to-do"))
+        db.session.execute(text("DELETE FROM `to-do`"))
+    db.session.commit()
