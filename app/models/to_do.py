@@ -21,6 +21,9 @@ class To_Do(db.Model):
     created_at = db.Column(db.DateTime, default= datetime.utcnow)
     updated_at = db.Column(db.DateTime, default= datetime.utcnow, onupdate=datetime.utcnow)
 
+    reviews = db.relationship('Review', cascade='all, delete-orphan', lazy="joined", backref="to-do")
+    favorites = db.relationship('Favorite', cascade='all, delete-orphan', lazy="joined", backref="to-do")
+
 
     def to_dict(self):
         return {

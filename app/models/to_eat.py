@@ -21,6 +21,10 @@ class To_Eat(db.Model):
     created_at = db.Column(db.DateTime, default= datetime.utcnow)
     updated_at = db.Column(db.DateTime, default= datetime.utcnow, onupdate=datetime.utcnow)
 
+    reviews = db.relationship('Review', cascade='all, delete-orphan', lazy="joined", backref="to-eat")
+    favorites = db.relationship('Favorite', cascade='all, delete-orphan', lazy="joined", backref="to-eat")
+
+
     def to_dict(self):
         return {
             'id': self.id,

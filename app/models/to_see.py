@@ -21,6 +21,8 @@ class To_See(db.Model):
     created_at = db.Column(db.DateTime, default= datetime.utcnow)
     updated_at = db.Column(db.DateTime, default= datetime.utcnow, onupdate=datetime.utcnow)
 
+    reviews = db.relationship('Review', cascade='all, delete-orphan', lazy="joined", backref="to-see")
+    favorites = db.relationship('Favorite', cascade='all, delete-orphan', lazy="joined", backref="to-see")
 
     def to_dict(self):
         return {

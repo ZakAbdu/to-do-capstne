@@ -1,6 +1,6 @@
 from .db import db
 from .user import User
-from .favorite import favorites
+from .favorite import Favorite
 from .review import Review
 from .to_do import To_Do
 from .to_see import To_See
