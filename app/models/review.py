@@ -10,19 +10,23 @@ class Review(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
-    to_do_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('to-do.id')))
-    to_see_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('to-see.id')))
-    to_eat_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('to-eat.id')))
+    todo_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('to-do.id')))
     rating = db.Column(db.Integer, nullable=False)
     comment = db.Column(db.Text)
     review_image = db.Column(db.String)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default= datetime.utcnow, onupdate=datetime.utcnow)
 
+    @property
+    def username(self):
+        return self.user.first_name + " " + self.user.last_name
+
     def to_dict(self):
         return {
             'id': self.id,
-            'userId': self.user_id,
+            'user_id': self.user_id,
+            'todo_id': self.todo_id,
+            'username': self.username,
             'rating': self.rating,
             'comment': self.comment,
             'reviewImage': self.review_image

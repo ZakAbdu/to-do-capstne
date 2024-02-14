@@ -1,6 +1,8 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import db, User, To_Do, To_See, To_Eat, Review
+from app.models import db, User, To_Do, Review, Favorite
+from app.forms.favorite_form import FavoriteForm
+
 
 
 user_routes = Blueprint('users', __name__)
@@ -33,22 +35,6 @@ def get_user_todo():
         To_Do.user_id == curr_user_id).all()
     return {"To-Do's": [to_do.to_dict() for to_do in to_dos]}
 
-# Get to-see's by current user
-@user_routes.route('/to-see')
-def get_user_tosee():
-    curr_user_id = current_user.id
-    to_sees = db.session.query(To_See).filter(
-        To_See.user_id == curr_user_id).all()
-    return {"To-See's": [to_see.to_dict() for to_see in to_sees]}
-
-# Get to-eat's by current user
-@user_routes.route('/to-eat')
-def get_user_toeat():
-    curr_user_id = current_user.id
-    to_eats = db.session.query(To_Eat).filter(
-        To_Eat.user_id == curr_user_id).all()
-    return {"To-Eat's": [to_eat.to_dict() for to_eat in to_eats]}
-
 
 # Get reviews by current user
 @user_routes.route('/reviews')
@@ -57,3 +43,35 @@ def get_user_reviews():
     reviews = db.session.query(Review).filter(
         Review.user_id == curr_user_id).all()
     return {"My Reviews": [review.to_dict() for review in reviews]}
+
+# Get favorites by user
+@user_routes.route('/<int:id>/favorites')
+def get_favorites(id):
+    favorites = Favorite.query.filter(Favorite.user_id == id)
+    return {'My To-Do List': [fav.to_dict() for fav in favorites]}
+
+# Add Favorite 
+@user_routes.route('/<int:id>/favorites', methods=['POST'])
+def add_favorite(id):
+    form = FavoriteForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        newFav = Favorite(user_id=form['userId'].data,
+                          toDo_id=form['todo_id'].data)
+        db.session.add(newFav)
+        db.session.commit()
+        return newFav.to_dict()
+    else:
+        return{'Error'}
+
+
+# Delete Favorite
+@user_routes.route('/<int:id>/favorites/<int:fav_id>', methods=['DELETE'])
+def delete_fav(id, fav_id):
+    favorite = Favorite.query.get(fav_id)
+    if (favorite):
+        db.session.delete(favorite)
+        db.session.commit()
+        return {'Message': "Favorite successfuly removed"}
+    else:
+        return {'Message': 'Favorite does not exist'}

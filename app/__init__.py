@@ -8,12 +8,11 @@ from .models import db, User
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.todo_routes import todo_routes
-from .api.toeat_routes import toeat_routes
-from .api.tosee_routes import tosee_routes
+from .api.review_routes import review_routes
 from .seeds import seed_commands
 from .config import Config
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 
 # Setup login manager
 login = LoginManager(app)
@@ -28,9 +27,11 @@ app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
+todo_routes.register_blueprint(review_routes, url_prefix='<int:todo_id>/reviews')
 app.register_blueprint(todo_routes, url_prefix='/api/to-do')
-app.register_blueprint(toeat_routes, url_prefix='/api/to-eat')
-app.register_blueprint(tosee_routes, url_prefix='/api/to-see')
+
+# app.register_blueprint(toeat_routes, url_prefix='/api/to-eat')
+# app.register_blueprint(tosee_routes, url_prefix='/api/to-see')
 
 db.init_app(app)
 Migrate(app, db)

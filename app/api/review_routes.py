@@ -1,63 +1,37 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import db, Review, To_Do, To_Eat, To_See
+from app.models import db, Review, To_Do
 from app.forms.review_form import ReviewForm
 
-review_routes = Blueprint('reviews', __name__)
+review_routes = Blueprint('to-do/<int:todo_id>/reviews', __name__)
 
 # Get all reviews by to_do id
-@review_routes.route('/to_do/reviews')
-def get_todo_reviews(to_do_id):
+@review_routes.route('/')
+def get_todo_reviews(todo_id):
     """
     Gets a list of the todo's reviews
     """
-    if To_Do.query.get(to_do_id) is None:
+    if To_Do.query.get(todo_id) is None:
         return jsonify({'Error': 'To-Do not found'}), 404
     
-    reviews = [review.to_dict() for review in Review.query.filter_by(to_do_id=to_do_id).all()]
+    reviews = [review.to_dict() for review in Review.query.filter_by(todo_id=todo_id).all()]
 
-    return jsonify({"Reviews": reviews}), 200
-
-# Get all reviews by to_see id
-@review_routes.route('/to-see/reviews')
-def get_tosee_reviews(to_see_id):
-    """
-    Gets a list of the tosee's reviews
-    """
-    if To_See.query.get(to_see_id) is None:
-        return jsonify({"Error": 'To-See not found'}), 404
-    
-    reviews = [review.to_dict() for review in Review.query.filter_by(to_see_id=to_see_id).all()]
-
-    return jsonify({"Reviews": reviews}), 200
-
-# Get all reviews by to_eat id
-@review_routes.route('/to-eat/reviews')
-def get_toeat_reviews(to_eat_id):
-    """
-    Gets a list of the toeat's reviews
-    """
-    if To_Eat.query.get(to_eat_id) is None:
-        return jsonify({"Error": 'To-Eat not found'}), 404
-    
-    reviews = [review.to_dict() for review in Review.query.filter_by(to_eat_id=to_eat_id).all()]
-    
     return jsonify({"Reviews": reviews}), 200
 
 
 # Create a TO-DO Review
 @review_routes.route('/', methods=['POST'])
 @login_required
-def create_todo_review(to_do_id):
+def create_todo_review(todo_id):
     """
     Creates a new review for the to-do
     """
     # Checks if todo's id is valid
-    if To_Do.query.get(to_do_id) is None:
+    if To_Do.query.get(todo_id) is None:
         return jsonify({"Error": "To-Do not found"}), 404
     
      # Checks if user already left a review for this to-do
-    if Review.query.filter_by(to_do_id=to_do_id, user_id=current_user.id).all():
+    if Review.query.filter_by(todo_id=todo_id, user_id=current_user.id).all():
         return jsonify({"Error": 'User already has a review for this To-Do'}), 403
     
     form = ReviewForm()
@@ -65,7 +39,7 @@ def create_todo_review(to_do_id):
     if form.validate_on_submit():
         data = form.data
         new_review = Review(user_id=current_user.id,
-                            to_do_id=to_do_id,
+                            todo_id=todo_id,
                             rating=data['rating'],
                             comment=data['comment'],
                             review_image=data['review_image'])

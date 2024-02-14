@@ -20,8 +20,6 @@ class User(db.Model, UserMixin):
 
     reviews = db.relationship('Review', cascade="all, delete-orphan", lazy="joined", backref='user')
     favorites = db.relationship('Favorite', cascade='all, delete-orphan', lazy="joined", backref='user')
-    to_eat = db.relationship('To_Eat', cascade='all, delete-orphan', lazy="joined", backref="user")
-    to_see = db.relationship('To_See', cascade='all, delete-orphan', lazy="joined", backref="user")
     to_do = db.relationship('To_Do', cascade='all, delete-orphan', lazy="joined", backref="user")
 
 
