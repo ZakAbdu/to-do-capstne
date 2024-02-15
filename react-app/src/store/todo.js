@@ -2,7 +2,6 @@ const GET_ALL_TODOS = 'todo/GET_ALL_TODOS'
 const GET_USER_TODOS = 'todo/GET_USER_TODOS';
 const SINGLE_TODO = 'todo/SINGLE_TODO'
 const CREATE_TODO = 'todo/CREATE_TODO'
-const EDIT_TODOS = 'todo/EDIT_TODO'
 const DELETE_TODO = 'todo/DELETE_TODO'
 const CLEAR_TODOS = 'todo/CLEAR_TODOS'
 
@@ -22,10 +21,9 @@ export const userToDoAction = (todos) => {
     }
 }
 
-export const singleToDoAction = (todo_id, todo) => {
+export const singleToDoAction = (todo) => {
     return {
         type: SINGLE_TODO,
-        todo_id,
         todo
     }
 }
@@ -37,12 +35,6 @@ export const createToDoAction = (newToDo) => {
     }
 }
 
-export const editToDoAction = (todo) => {
-    return {
-        type: SINGLE_TODO,
-        todo
-    }
-}
 
 export const deleteToDoAction = (todo_id) => {
     return {
@@ -110,7 +102,7 @@ export const getSingleToDo = (todo_id) => async (dispatch) => {
 
     if (res.ok) {
         const todo = await res.json()
-        dispatch(singleToDoAction(todo_id, todo))
+        dispatch(singleToDoAction(todo))
         return todo;
     }
 }
@@ -159,46 +151,6 @@ export const addToDo = (todo) => async (dispatch) => {
     }
 }
 
-export const editToDo = (todo_id, todo) => async (dispatch) => {
-    const {
-        name,
-        cover_image,
-        email,
-        phone_number,
-        address,
-        city,
-        state,
-        category
-    } = todo
-
-    const res = await fetch(`/api/to-do/${todo_id}`, {
-        method: 'PUT',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            name,
-            cover_image,
-            email,
-            phone_number,
-            address,
-            city,
-            state,
-            category
-        })
-    });
-
-    if (res.ok) {
-        const todo = await res.json()
-        dispatch(editToDoAction(todo))
-        return todo
-    } else if (res.status < 500) {
-        const data = await res.json()
-        if (data.errors) {
-            return data.errors
-        } else {
-            return ['An error occured. Please try again.']
-        }
-    }
-}
 
 export const deleteToDo = (todo_id) => async (dispatch) => {
     const res = await fetch(`/api/to-do/${todo_id}`, {
@@ -227,6 +179,10 @@ export const todoReducer = (state = initialState, action) => {
             action.todos.todos.forEach(todo => {
                 newState[todo.id] = todo;
             });
+            return newState;
+        case SINGLE_TODO:
+            newState = {...state};
+            newState = action.todo.todo
             return newState;
         case CREATE_TODO:
             newState = {
