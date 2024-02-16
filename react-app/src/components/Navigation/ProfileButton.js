@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../../store/session";
 
 export default function ProfileButton({ user }) {
 
     const dispatch = useDispatch();
-    const history = useHistory();
+    const history = useNavigate();
     const [showMenu, setShowMenu] = useState(false);
     const ulRef = useRef();
 

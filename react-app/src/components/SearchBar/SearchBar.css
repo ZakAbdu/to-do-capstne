@@ -1,0 +1,36 @@
+.search-form-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+#city, #category {
+    width: 200px;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+  
+.table-button {
+    padding: 10px 20px;
+    margin: 10px;
+    /* background-color: #007bff; */
+    /* background-color: rgb(97, 143, 226); */
+    background-color: rgb(68, 112, 216);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.table-button:hover {
+    /* background-color: #0056b3; */
+    background-color: rgb(88, 132, 236);
+}
+
+.city, .category-type {
+    color: #333
+}

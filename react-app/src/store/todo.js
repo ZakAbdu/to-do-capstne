@@ -56,7 +56,7 @@ export const clearToDos = () => (dispatch) => {
 
 
 export const getAllToDos = (type, city) => async (dispatch) => {
-
+    let url = '/api/to-do/'
     const params = new URLSearchParams();
 
     if (type) params.append('type', type);
@@ -140,10 +140,10 @@ export const addToDo = (todo) => async (dispatch) => {
         const newToDo = await res.json();
         dispatch(createToDoAction(newToDo))
         return newToDo;
-    } else if (response.status < 500) {
-        const data = await response.json();
+    } else if (res.status < 500) {
+        const data = await res.json();
         if (data.errors) {
-            const errorData = await response.json()
+            const errorData = await res.json()
             return errorData.errors;
         } else {
             return ["An error occurred. Please try again."];

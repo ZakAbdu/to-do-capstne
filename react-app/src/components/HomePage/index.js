@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllToDos } from "../../store/todo";
-import { useLocation, Link } from "react-router";
+import { useLocation } from "react-router";
+import { NavLink } from "react-router-dom";
 
 import "./HomePage.css"
 
@@ -51,7 +52,7 @@ const HomePage = () => {
                 <div className="todo-cards">
                     {
                         selectedToDos.map(todo => (
-                            <Link to={`/to-do/${todo.id}`} key={todo.id}>
+                            <NavLink to={`/to-do/${todo.id}`} key={todo.id}>
                                 <div className="card-container">
                                     <img className="card-img" src={todo.cover_image} alt="to-do" />
                                     <div className="card-name">{`${todo.name}`}</div>
@@ -61,7 +62,7 @@ const HomePage = () => {
                                         <div className="card-city">{`${todo.city}`}</div>
                                     </div>
                                 </div>
-                            </Link>
+                            </NavLink>
                         ))
                     }
                 </div>
