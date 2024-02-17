@@ -8,21 +8,21 @@ todo_routes = Blueprint('to-do', __name__)
 # Get all todo's
 @todo_routes.route('/')
 def get_todo():
-    type = request.args.get('type')
+    category = request.args.get('category')
     city = request.args.get('city')
 
     query = To_Do.query
 
-    if type and city:
-        query = query.filter(To_Do.category == type, To_Do.city == city)
-    elif type:
-        query = query.filter(To_Do.category == type)
+    if category and city:
+        query = query.filter(To_Do.category == category, To_Do.city == city)
+    elif category:
+        query = query.filter(To_Do.category == category)
     elif city:
         query = query.filter(To_Do.city == city)
     
-    to_dos = [todo.to_dict() for todo in query.all()]
+    todos = [todo.details_to_dict() for todo in query.all()]
 
-    return jsonify({'To-Dos': to_dos}), 200
+    return jsonify({'todos': todos}), 200
 
 
 # Get todo by id
@@ -34,7 +34,7 @@ def get_todo_by_id(todo_id):
     if todo is None:
         return jsonify({"Error": 'To-Do not found'}), 404
     
-    return jsonify({"To-Do": todo.to_dict()}), 200
+    return jsonify({"todo": todo.details_to_dict()}), 200
 
 
 # Create a todo

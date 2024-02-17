@@ -1,76 +1,74 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../../store/session";
+import OpenModalButton from "../OpenModalButton";
+import LoginFormModal from "../Forms/LoginFormModal";
+import SignUpFormModal from "../Forms/SignUpFormModal";
 
-export default function ProfileButton({ user }) {
+function ProfileButton({ user }) {
+  const dispatch = useDispatch();
+  const [showMenu, setShowMenu] = useState(false);
+  const ulRef = useRef();
 
-    const dispatch = useDispatch();
-    const history = useNavigate();
-    const [showMenu, setShowMenu] = useState(false);
-    const ulRef = useRef();
+  const openMenu = () => {
+    if (showMenu) return;
+    setShowMenu(true);
+  };
 
-    const openMenu = () => {
-        if (showMenu) return;
-        setShowMenu(true);
-      };
-    
-    useEffect(() => {
-        if (!showMenu) return;
-    
-        const closeMenu = (e) => {
-          if (!ulRef.current.contains(e.target)) {
-            setShowMenu(false);
-          }
-        };
-    
-        document.addEventListener("click", closeMenu);
-    
-        return () => document.removeEventListener("click", closeMenu);
-      }, [showMenu]);
+  useEffect(() => {
+    if (!showMenu) return;
 
-      const handleLogout = (e) => {
-        e.preventDefault();
-        dispatch(logout());
-        return history.push('/browse');
-      };
+    const closeMenu = (e) => {
+      if (!ulRef.current.contains(e.target)) {
+        setShowMenu(false);
+      }
+    };
 
-      const ulClassName = "Menu" + (showMenu ? "" : " hidden");
-      const closeMenu = () => setShowMenu(false);
+    document.addEventListener("click", closeMenu);
 
-      return (
-        <>
-            <div className="Menu-Button-Wrap">
-                <i className="fa-solid fa-bars" id="burger" onClick={openMenu} />
-            </div>
-            <ul className={ulClassName} ref={ulRef}>
-                {user ? (
-                    <>
-                        <div className="Menu-Buttons">
-                            <div className="Menu-Welcome">Welcome {user.first_name}!</div>
-                            <NavLink to='/favorites' style={{ textDecoration: 'none' }} className='Menu-myToDo'>My To-Do List
-                                <i className="" id="notebook" />
-                            </NavLink>
-                            <div className="Menu-Upload">
-                                
-                            </div>
-                            <div className="Menu-Logout" onClick={handleLogout}>
-                                Log Out
-                            </div>
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <div className="Menu-Welcome">Welcome!</div>
-                        <div className="Menu-Login">
+    return () => document.removeEventListener("click", closeMenu);
+  }, [showMenu]);
 
-                        </div>
-                        <div className="Menu-SignUp">
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(logout());
+  };
 
-                        </div>
-                    </>
-                )}
-            </ul>
-        </>
-      )
+  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+  const closeMenu = () => setShowMenu(false);
+
+  return (
+    <>
+      <button onClick={openMenu}>
+        <i className="fas fa-user-circle" />
+      </button>
+      <ul className={ulClassName} ref={ulRef}>
+        {user ? (
+          <>
+            <li>{user.last_name}</li>
+            <li>{user.email}</li>
+            <li>
+              <button onClick={handleLogout}>Log Out</button>
+            </li>
+          </>
+        ) : (
+          <>
+            <OpenModalButton
+              buttonText="Log In"
+              onItemClick={closeMenu}
+              modalComponent={<LoginFormModal />}
+            />
+
+            <OpenModalButton
+              buttonText="Sign Up"
+              onItemClick={closeMenu}
+              modalComponent={<SignUpFormModal />}
+            />
+          </>
+        )}
+      </ul>
+    </>
+  );
 }
+
+export default ProfileButton;

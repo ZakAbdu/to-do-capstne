@@ -1,6 +1,4 @@
 const GET_ALL_TODOS = 'todo/GET_ALL_TODOS'
-const GET_USER_TODOS = 'todo/GET_USER_TODOS';
-const SINGLE_TODO = 'todo/SINGLE_TODO'
 const CREATE_TODO = 'todo/CREATE_TODO'
 const DELETE_TODO = 'todo/DELETE_TODO'
 const CLEAR_TODOS = 'todo/CLEAR_TODOS'
@@ -11,20 +9,6 @@ export const allToDoAction = (todos) => {
     return {
         type: GET_ALL_TODOS,
         todos
-    }
-}
-
-export const userToDoAction = (todos) => {
-    return {
-        type: GET_USER_TODOS,
-        todos
-    }
-}
-
-export const singleToDoAction = (todo) => {
-    return {
-        type: SINGLE_TODO,
-        todo
     }
 }
 
@@ -55,56 +39,31 @@ export const clearToDos = () => (dispatch) => {
 };
 
 
-export const getAllToDos = (type, city) => async (dispatch) => {
-    let url = '/api/to-do/'
+export const getAllToDos = (category, city) => async (dispatch) => {
+
+    let url = '/api/to-do/';
     const params = new URLSearchParams();
 
-    if (type) params.append('type', type);
+    if (category) params.append('category', category);
     if (city) params.append('city', city);
 
     if (params.toString()) {
         url += '?' + params.toString();
     }
 
-    const res = await fetch('/api/to-do/', {
+    const res = await fetch(url, {
         headers: {
             'Content-Type': 'application/json'
         }
     });
 
     if (res.ok) {
+        console.log("5: I'm in the right thunk, response ok: ", )
         const todos = await res.json();
         dispatch(allToDoAction(todos));
         return todos;
     }
-}
-
-export const getUserToDos = () => async (dispatch) => {
-    const res = await fetch('/api/users/to-do', {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-
-    if (res.ok) {
-        const todos = await res.json()
-        dispatch(userToDoAction(todos))
-        return todos
-    }
-}
-
-export const getSingleToDo = (todo_id) => async (dispatch) => {
-    const res = await fetch(`/api/to-do/${todo_id}`, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-
-    if (res.ok) {
-        const todo = await res.json()
-        dispatch(singleToDoAction(todo))
-        return todo;
-    }
+    
 }
 
 export const addToDo = (todo) => async (dispatch) => {
@@ -165,7 +124,7 @@ export const deleteToDo = (todo_id) => async (dispatch) => {
 
 // ---------------------------------------
 
-const initialState = {}
+const initialState = {};
 
 export const todoReducer = (state = initialState, action) => {
     let newState;
@@ -175,14 +134,10 @@ export const todoReducer = (state = initialState, action) => {
                 ...initialState
             };
         case GET_ALL_TODOS:
-            newState = { ...state }
+            newState = { ...state };
             action.todos.todos.forEach(todo => {
                 newState[todo.id] = todo;
             });
-            return newState;
-        case SINGLE_TODO:
-            newState = {...state};
-            newState = action.todo.todo
             return newState;
         case CREATE_TODO:
             newState = {

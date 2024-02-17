@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { UseDispatch } from "react-redux";
-import { useNavigate } from "react-router";
+import { useHistory } from "react-router-dom";
 import "./SearchBar.css"
 
 
-function SearchBar() {
+export default function SearchBar() {
     const [city, setCity] = useState('')
     const [category, setCategory] = useState('')
-    const history = useNavigate();
+    const history = useHistory();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -17,11 +17,12 @@ function SearchBar() {
             queryParams.append('city', city)
         }
         if (category) {
-            queryParams.append('type', category)
+            queryParams.append('category', category)
         }
 
         const queryString = queryParams.toString();
         history.push(`/to-do${ queryString ? `?${queryString}` : '' }`)
+    };
 
         return (
             <form className="search-form-container" onSubmit={handleSubmit}>
@@ -34,6 +35,10 @@ function SearchBar() {
                 >
                     <option value=''>Search by City</option>
                     <option value='San Diego'>San Diego</option>
+                    <option value='New York'>New York</option>
+                    <option value='Miami'>Miami</option>
+                    <option value='Chicago'>Chicago</option>
+                    <option value='Seattle'>Seattle</option>
                 </select>
 
                 <label className="category-type"></label>
@@ -51,7 +56,4 @@ function SearchBar() {
                 <button className="table-button" type="submit">Find a To-Do</button>
             </form>
         )
-    }
 }
-
-export default SearchBar

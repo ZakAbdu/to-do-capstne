@@ -62,7 +62,7 @@ const initialState = [];
 const favoriteReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_FAVORITE: {
-            return action.payload.favorites;
+            return action.payload || initialState;
         }
         case ADD_FAVORITE: {
             return [...state, action.payload];

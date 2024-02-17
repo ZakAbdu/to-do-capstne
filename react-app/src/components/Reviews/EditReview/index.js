@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, Redirect, useHistory} from "react-router-dom";
 import { useModal } from "../../../context/Modal";
 import { editReviews } from "../../../store/review";
-import { getSingleToDo } from "../../../store/todo";
+import { getSingleToDo } from "../../../store/todoDetails";
 import "./EditReview.css"
 
 export default function EditReviewForm({ review }) {
@@ -69,7 +69,7 @@ export default function EditReviewForm({ review }) {
         return <Redirect to='/signup' />;
     }
 
-    dispatch(getDetailsRestaurant(review.todo_id))
+    dispatch(getSingleToDo(review.todo_id))
 
     closeModal();
   }

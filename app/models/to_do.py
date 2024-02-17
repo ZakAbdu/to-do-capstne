@@ -38,7 +38,35 @@ class To_Do(db.Model):
             'state': self.state,
             'category': self.category,
             'createdAt': self.created_at,
-            'updatedAt': self.updated_at
+            'updatedAt': self.updated_at,
+            'reviews': [review.to_dict() for review in self.reviews]
+        }
+    
+    def details_to_dict(self):
+        review_ratings = {review.rating for review in self.reviews}
+        average_rating = sum(review_ratings) / len(review_ratings) if review_ratings else None
+
+        review_images = []
+        for review in self.reviews:
+            review_images.extend([review.review_image])
+        
+        return {
+            'id': self.id,
+            'userId': self.user_id,
+            'name': self.name,
+            'coverImage': self.cover_image,
+            'email': self.email,
+            'phoneNumber': self.phone_number,
+            'address': self.address,
+            'city': self.city,
+            'state': self.state,
+            'category': self.category,
+            'createdAt': self.created_at,
+            'updatedAt': self.updated_at,
+            'favoritedBy': [favorite.to_dict() for favorite in self.favorites],
+            'reviews': [review.to_dict() for review  in self.reviews],
+            'averageRating': average_rating ,
+            'reviewImages': review_images
         }
 
     

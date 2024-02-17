@@ -1,2 +1,8 @@
 ppvenv
 node_modules
+.env
+__pycache__/
+*.py[cod]
+.venv
+.DS_Store
+.vscode/

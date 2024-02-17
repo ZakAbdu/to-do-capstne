@@ -1,0 +1,65 @@
+.todo-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 50px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    /* border: 2px solid red; */
+}
+
+.manage-header {
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+#create-label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: inline-block;
+    color: #333;
+}
+
+.create-input {
+    width: 95%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 2px solid black;
+    background-color: white;
+    margin-bottom: 20px;
+    font-size: 1em;
+    color: black;
+}
+
+.create-select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    font-size: 1em;
+    color: #333;
+    /* border: none; */
+}
+
+.create-button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(68, 112, 216);
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.create-button:hover {
+    background-color: rgb(88, 132, 236);
+}

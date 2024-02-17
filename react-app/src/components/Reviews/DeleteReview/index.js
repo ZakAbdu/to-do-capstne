@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router";
 import { useModal } from "../../../context/Modal";
 import { deleteReviews } from "../../../store/review";
-import { getSingleToDo } from "../../../store/todo";
+import { getSingleToDo } from "../../../store/todoDetails";
 import "./DeleteReview.css"
 
 export default function DeleteReviewForm({ review }) {
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.session.user);
-    const history = useHistory();
+    
     const { closeModal } = useModal();
     const { id } = useParams();
     const [errors, setErrors] = useState([]);
@@ -23,7 +23,7 @@ export default function DeleteReviewForm({ review }) {
                 if (data && data.errors) setErrors(data.errors);
             })
         
-        dispatch(getDetailsRestaurant(review.todo_id))
+        dispatch(getSingleToDo(review.todo_id))
         
         closeModal();
     

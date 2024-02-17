@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addReviews } from "../../../store/review";
-import { useParams, Redirect, useHistory } from "react-router";
+import { useParams} from "react-router";
+import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import { getSingleToDo } from "../../../store/todoDetails";
 import { useModal } from "../../../context/Modal";
 import "./NewReview.css"
 
@@ -63,8 +66,9 @@ export default function CreateReviewModal({ todo }) {
         return <Redirect to='/signup' />
     }
 
+    dispatch(getSingleToDo(todo.id))
     closeModal();
-    history.push(`/to-do/${todo.id}/`)
+    
   }
 
   return (

@@ -57,7 +57,7 @@ export const addReviews = (todo_id, rating, comment, review_image) => async (dis
         rating, comment, review_image
     }
 
-    const res = await fetch(`/api/to-do/${todo_id}/reviews`, {
+    const res = await fetch(`/api/to-do/${todo_id}/reviews/`, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

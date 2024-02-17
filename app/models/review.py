@@ -29,5 +29,6 @@ class Review(db.Model):
             'username': self.username,
             'rating': self.rating,
             'comment': self.comment,
-            'reviewImage': self.review_image
+            'reviewImage': self.review_image,
+            'createdAt': self.created_at
         }

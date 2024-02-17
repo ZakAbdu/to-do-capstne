@@ -55,11 +55,11 @@ def create_todo_review(todo_id):
 # Edit TO-DO Review
 @review_routes.route('/<int:review_id>', methods=["PUT"])
 @login_required
-def edit_todo_reviews(to_do_id, review_id):
+def edit_todo_reviews(todo_id, review_id):
     """
     Edits a todo's review
     """
-    if To_Do.query.get(to_do_id) is None:
+    if To_Do.query.get(todo_id) is None:
         return jsonify({"Error": 'To-Do not found'}), 404
     
     review = Review.query.get(review_id)
@@ -82,11 +82,11 @@ def edit_todo_reviews(to_do_id, review_id):
 # Delete a To-Do Review
 @review_routes.route('/<int:review_id>', methods=['DELETE'])
 @login_required
-def delete_todo_reviews(to_do_id, review_id):
+def delete_todo_reviews(todo_id, review_id):
     """
     Deletes a todo's Review
     """
-    if To_Do.query.get(to_do_id) is None:
+    if To_Do.query.get(todo_id) is None:
         return jsonify({"Error": 'To-Do not found'}), 404
     
     if Review.query.get(review_id) is None:
@@ -100,4 +100,3 @@ def delete_todo_reviews(to_do_id, review_id):
     db.session.delete(review)
     db.session.commit()
     return {"Message": "Review successfully deleted"}
-

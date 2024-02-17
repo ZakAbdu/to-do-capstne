@@ -75,11 +75,19 @@ input:focus {
 }
 
 
-.Demo-Login{
+Remove validation styles */ input:invalid {
+    outline: none;
+    /* Optional: Remove outline on invalid input */
+    box-shadow: none;
+    /* Optional: Remove box-shadow on invalid input */
+}
+
+
+.SignUp-Demo-Btn-Text{
     display: flex;
     align-self: center;
     justify-content: center;
-    background-color: #0f48da;
+    background-color: #0F48DA;
     width: 60%;
     height: 35px;
     border-radius: 4px;
@@ -87,7 +95,8 @@ input:focus {
     cursor: pointer;
 }
 
-.Demo-Login:hover {
+.SignUp-Demo-Btn-Text:hover {
     cursor: pointer;
     box-shadow: 5px 5px 5px black;
+
 }

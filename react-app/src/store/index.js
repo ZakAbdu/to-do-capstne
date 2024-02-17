@@ -1,16 +1,19 @@
-import { createStore, combineReducers, applyMiddleware, compose  } from "redux";
-import { thunk } from "redux-thunk";
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
 import session from './session'
-import favoriteReducer from "./favorite";
-import { todoReducer } from "./todo";
-import reviewsReducer from "./review";
+import { todoReducer } from './todo';
+import todoDetailsReducer from './todoDetails';
+import reviewsReducer from './review';
+import favoriteReducer from './favorite';
 
 const rootReducer = combineReducers({
-    session,
-    favorites: favoriteReducer,
-    todos: todoReducer,
-    reviews: reviewsReducer
-})
+  session, 
+  favorites: favoriteReducer,
+  todos: todoReducer,
+  todoDetails: todoDetailsReducer,
+  reviews: reviewsReducer,
+});
+
 
 let enhancer;
 
